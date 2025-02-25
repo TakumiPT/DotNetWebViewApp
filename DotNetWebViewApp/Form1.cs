@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace DotNetWebViewApp
 {
@@ -44,7 +47,16 @@ namespace DotNetWebViewApp
                 { "version", HandleVersionRequest },
                 { "status", HandleStatusRequest },
                 { "platform", HandlePlatformRequest },
-                { "openFolderDialog", HandleOpenFolderDialogRequest }
+                { "openFolderDialog", HandleOpenFolderDialogRequest },
+                { "readFile", HandleReadFileRequest },
+                { "saveFile", HandleSaveFileRequest },
+                { "readdir", HandleReadDirRequest },
+                { "showMessageBox", HandleShowMessageBoxRequest },
+                { "getToken", HandleGetTokenRequest },
+                { "getAuthProfile", HandleGetAuthProfileRequest },
+                { "closeMainWindow", HandleCloseMainWindowRequest },
+                { "runCommand", HandleRunCommandRequest },
+                { "getUserHost", HandleGetUserHostRequest }
             };
         }
 
@@ -140,6 +152,76 @@ namespace DotNetWebViewApp
         private string HandleOpenFolderDialogRequest(string[] args)
         {
             return OpenFolderDialog();
+        }
+
+        private string HandleReadFileRequest(string[] args)
+        {
+            if (args.Length == 0) return string.Empty;
+            return File.ReadAllText(args[0]);
+        }
+
+        private string HandleSaveFileRequest(string[] args)
+        {
+            if (args.Length < 2) return string.Empty;
+            File.WriteAllText(args[0], args[1]);
+            return "File saved successfully";
+        }
+
+        private string HandleReadDirRequest(string[] args)
+        {
+            if (args.Length == 0) return string.Empty;
+            var files = Directory.GetFiles(args[0]);
+            return System.Text.Json.JsonSerializer.Serialize(files);
+        }
+
+        private string HandleShowMessageBoxRequest(string[] args)
+        {
+            if (args.Length == 0) return string.Empty;
+            MessageBox.Show(args[0]);
+            return "Message box shown";
+        }
+
+        private string HandleGetTokenRequest(string[] args)
+        {
+            // Implement your logic to get the token
+            return "token";
+        }
+
+        private string HandleGetAuthProfileRequest(string[] args)
+        {
+            // Implement your logic to get the auth profile
+            return System.Text.Json.JsonSerializer.Serialize(new { name = "User", email = "user@example.com" });
+        }
+
+        private string HandleCloseMainWindowRequest(string[] args)
+        {
+            this.Close();
+            return "Main window closed";
+        }
+
+        private string HandleRunCommandRequest(string[] args)
+        {
+            if (args.Length == 0) return string.Empty;
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = $"/C {args[0]}",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                }
+            };
+            process.Start();
+            string result = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            return result;
+        }
+
+        private string HandleGetUserHostRequest(string[] args)
+        {
+            return System.Text.Json.JsonSerializer.Serialize(new { username = Environment.UserName, hostname = Environment.MachineName });
         }
 
         // Method to open a folder dialog and return the selected path

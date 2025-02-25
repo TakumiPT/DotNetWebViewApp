@@ -229,10 +229,19 @@
         <h1>
           Welcome to {{ title }}!
         </h1>
-        <button (click)="getVersion()">Get App Version</button>
-        <button (click)="getStatus()">Get App Status</button>
-        <button (click)="getPlatform()">Get App Platform</button>
+        <button (click)="getVersion()">Get Version</button>
+        <button (click)="getStatus()">Get Status</button>
+        <button (click)="getPlatform()">Get Platform</button>
         <button (click)="openFolderDialog()">Open Folder Dialog</button>
+        <button (click)="readFile()">Read File</button>
+        <button (click)="saveFile()">Save File</button>
+        <button (click)="readDir()">Read Directory</button>
+        <button (click)="showMessageBox()">Show Message Box</button>
+        <button (click)="getToken()">Get Token</button>
+        <button (click)="getAuthProfile()">Get Auth Profile</button>
+        <button (click)="closeMainWindow()">Close Main Window</button>
+        <button (click)="runCommand()">Run Command</button>
+        <button (click)="getUserHost()">Get User Host</button>
       </div>
       <p>Congratulations! Your app is running. 🎉</p>
     </div>
