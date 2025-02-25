@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kf2AUwGnfrqsP1Z05xNsqP5vpHvHfJRuGVrg1FpKqhZ8yTZmZ3/IIaB0NniuNe0GoBbmeMpvs4woaiSmKyn/QQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\fmiguelf\\work\\Teste\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\fmiguelf\\.nuget\\packages\\microsoft.web.webview2\\1.0.3065.39\\microsoft.web.webview2.1.0.3065.39.nupkg.sha512"
+  ],
+  "logs": []
+}
