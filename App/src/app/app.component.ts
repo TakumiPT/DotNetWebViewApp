@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { IpcService } from './ipc.service';
+import { BridgeService } from './bridge.service';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +12,14 @@ import { IpcService } from './ipc.service';
 export class AppComponent implements OnInit {
   title = 'AngularApp';
 
-  constructor(private ipcService: IpcService) {}
+  constructor(private bridgeService: BridgeService) {}
 
   ngOnInit() {
   }
 
   async getVersion() {
     try {
-      const version = await this.ipcService.invoke('version');
+      const version = await this.bridgeService.invoke('version');
       console.log(`App version: ${version}`);
       alert(`App version: ${version}`);
     } catch (error) {
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   async getStatus() {
     try {
-      const status = await this.ipcService.invoke('status');
+      const status = await this.bridgeService.invoke('status');
       console.log(`App status: ${status}`);
       alert(`App status: ${status}`);
     } catch (error) {
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
 
   async getPlatform() {
     try {
-      const platform = await this.ipcService.invoke('platform');
+      const platform = await this.bridgeService.invoke('platform');
       console.log(`App platform: ${platform}`);
       alert(`App platform: ${platform}`);
     } catch (error) {
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
 
   async openFolderDialog() {
     try {
-      const selectedPath = await this.ipcService.invoke('openFolderDialog');
+      const selectedPath = await this.bridgeService.invoke('openFolderDialog');
       console.log(`Selected folder path: ${selectedPath}`);
       alert(`Selected folder path: ${selectedPath}`);
     } catch (error) {

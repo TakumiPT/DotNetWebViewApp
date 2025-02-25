@@ -23,3 +23,4 @@ C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\refint\Do
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.pdb
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.genruntimeconfig.cache
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\ref\DotNetWebViewApp.dll
+C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.sourcelink.json

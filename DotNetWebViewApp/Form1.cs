@@ -4,6 +4,7 @@ using System;
 using System.Text.Json.Serialization;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DotNetWebViewApp
 {
@@ -48,7 +49,7 @@ namespace DotNetWebViewApp
         }
 
         // Event handler for WebView2 initialization completion
-        private void WebView_CoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
+        private async void WebView_CoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
         {
             Console.WriteLine("WebView2 initialization completed.");
             if (e.IsSuccess)
@@ -57,6 +58,14 @@ namespace DotNetWebViewApp
                 // Add an event listener for messages from the Angular app
                 webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
                 Console.WriteLine("WebMessageReceived event subscribed.");
+                // Inject the preload script
+                string preloadScriptPath = "c:/Users/fmiguelf/work/Teste/App/src/assets/preload.js";
+                string preloadScript = await System.IO.File.ReadAllTextAsync(preloadScriptPath);
+                await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
+                Console.WriteLine("Preload script injected.");
+                // Add a delay to ensure the script is loaded before the Angular application starts
+                await Task.Delay(1000);
+                webView.CoreWebView2.Navigate("http://localhost:4200");
             }
             else
             {
