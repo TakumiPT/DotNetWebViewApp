@@ -71,10 +71,18 @@ namespace DotNetWebViewApp
                 webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
                 Console.WriteLine("WebMessageReceived event subscribed.");
                 // Inject the preload script
-                string preloadScriptPath = "c:/Users/fmiguelf/work/Teste/App/src/assets/preload.js";
-                string preloadScript = await System.IO.File.ReadAllTextAsync(preloadScriptPath);
-                await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
-                Console.WriteLine("Preload script injected.");
+                Console.WriteLine(AppContext.BaseDirectory);
+                string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "preload.js");
+                if (File.Exists(preloadScriptPath))
+                {
+                    string preloadScript = await System.IO.File.ReadAllTextAsync(preloadScriptPath);
+                    await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
+                    Console.WriteLine("Preload script injected.");
+                }
+                else
+                {
+                    Console.WriteLine($"Preload script not found at path: {preloadScriptPath}");
+                }
                 // Add a delay to ensure the script is loaded before the Angular application starts
                 await Task.Delay(1000);
                 webView.CoreWebView2.Navigate("http://localhost:4200");

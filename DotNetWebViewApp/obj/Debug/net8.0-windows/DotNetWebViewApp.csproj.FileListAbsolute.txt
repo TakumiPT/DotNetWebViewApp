@@ -9,9 +9,6 @@ C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\DotNetWeb
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Core.dll
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.WinForms.dll
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Wpf.dll
-C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Core.xml
-C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.WinForms.xml
-C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Wpf.xml
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.csproj.AssemblyReference.cache
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.AssemblyInfoInputs.cache
@@ -24,3 +21,4 @@ C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWeb
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.genruntimeconfig.cache
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\ref\DotNetWebViewApp.dll
 C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.sourcelink.json
+C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\preload.js
