@@ -25,6 +25,13 @@ namespace DotNetWebViewApp
         {
             InitializeComponent();
 
+            // Set the form's icon
+            string faviconPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "browser", "favicon.ico");
+            if (File.Exists(faviconPath))
+            {
+                this.Icon = new Icon(faviconPath);
+            }
+
             // Initialize file paths
             indexFilePath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "browser", "index.html");
             // baseUrl = "http://localhost:4200";
@@ -113,6 +120,13 @@ namespace DotNetWebViewApp
 
                 // Add a delay to ensure the script is loaded before the Angular application starts
                 await Task.Delay(1000);
+
+                // Subscribe to the DocumentTitleChanged event
+                webView.CoreWebView2.DocumentTitleChanged += (sender, e) =>
+                {
+                    this.Text = webView.CoreWebView2.DocumentTitle ?? "DotNetWebViewApp";
+                };
+                Console.WriteLine("DocumentTitleChanged event subscribed.");
 
                 // Navigate to the base URL
                 webView.CoreWebView2.Navigate(baseUrl);
