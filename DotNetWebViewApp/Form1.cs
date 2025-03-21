@@ -17,26 +17,111 @@ namespace DotNetWebViewApp
         private WebView2 webView;
         private Dictionary<string, Func<string[], string>> channelHandlers;
 
+        // Base URL for the Angular application
+        private string indexFilePath;
+        private string baseUrl;
+
         public Form1()
         {
             InitializeComponent();
+
+            // Initialize file paths
+            indexFilePath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "index.html");
+            // baseUrl = "http://localhost:4200";
+            baseUrl =  indexFilePath;
+
+
             InitializeWebView();
             InitializeChannelHandlers();
             Console.WriteLine("Form1 constructor executed.");
         }
 
         // Initialize the WebView2 control
-        private void InitializeWebView()
+        private async void InitializeWebView()
         {
-            webView = new WebView2
+            try
             {
-                Dock = DockStyle.Fill // Fill the entire form
-            };
-            this.Controls.Add(webView);
-            webView.Source = new Uri("http://localhost:4200"); // Set the source to the Angular app
-            // Subscribe to the CoreWebView2InitializationCompleted event
-            webView.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
-            Console.WriteLine("WebView2 initialization started.");
+                webView = new WebView2
+                {
+                    Dock = DockStyle.Fill // Fill the entire form
+                };
+                this.Controls.Add(webView);
+
+                // Create a CoreWebView2Environment with custom command-line arguments
+                var environment = await CoreWebView2Environment.CreateAsync(
+                    userDataFolder: null,
+                    options: new CoreWebView2EnvironmentOptions("--disable-web-security --allow-file-access-from-files")
+                );
+
+                // Initialize the WebView2 control with the custom environment
+                Console.WriteLine("Starting WebView2 initialization...");
+                await webView.EnsureCoreWebView2Async(environment);
+                Console.WriteLine("WebView2 initialized successfully.");
+
+                // Directly handle initialization logic if CoreWebView2 is already initialized
+                if (webView.CoreWebView2 != null)
+                {
+                    Console.WriteLine("CoreWebView2 is already initialized. Executing initialization logic.");
+                    await HandleWebViewInitialization();
+                }
+                else
+                {
+                    // Subscribe to the CoreWebView2InitializationCompleted event
+                    webView.CoreWebView2InitializationCompleted += async (sender, e) =>
+                    {
+                        Console.WriteLine("CoreWebView2InitializationCompleted event triggered.");
+                        if (e.IsSuccess)
+                        {
+                            await HandleWebViewInitialization();
+                        }
+                        else
+                        {
+                            Console.WriteLine("WebView2 initialization failed.");
+                        }
+                    };
+                    Console.WriteLine("Subscribed to CoreWebView2InitializationCompleted event.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during WebView2 initialization: {ex.Message}");
+            }
+        }
+
+        // Extracted initialization logic into a separate method
+        private async Task HandleWebViewInitialization()
+        {
+            try
+            {
+                // Add an event listener for messages from the Angular app
+                webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
+                Console.WriteLine("WebMessageReceived event subscribed.");
+
+                // Inject the preload script
+                Console.WriteLine(AppContext.BaseDirectory);
+                string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "preload.js");
+                if (File.Exists(preloadScriptPath))
+                {
+                    string preloadScript = await File.ReadAllTextAsync(preloadScriptPath);
+                    await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
+                    Console.WriteLine("Preload script injected.");
+                }
+                else
+                {
+                    Console.WriteLine($"Preload script not found at path: {preloadScriptPath}");
+                }
+
+                // Add a delay to ensure the script is loaded before the Angular application starts
+                await Task.Delay(1000);
+
+                // Navigate to the base URL
+                webView.CoreWebView2.Navigate(baseUrl);
+                Console.WriteLine("Navigation to base URL completed.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during WebView2 initialization logic: {ex.Message}");
+            }
         }
 
         // Initialize the channel handlers
@@ -58,39 +143,6 @@ namespace DotNetWebViewApp
                 { "runCommand", HandleRunCommandRequest },
                 { "getUserHost", HandleGetUserHostRequest }
             };
-        }
-
-        // Event handler for WebView2 initialization completion
-        private async void WebView_CoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
-        {
-            Console.WriteLine("WebView2 initialization completed.");
-            if (e.IsSuccess)
-            {
-                Console.WriteLine("WebView2 initialization successful.");
-                // Add an event listener for messages from the Angular app
-                webView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
-                Console.WriteLine("WebMessageReceived event subscribed.");
-                // Inject the preload script
-                Console.WriteLine(AppContext.BaseDirectory);
-                string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "preload.js");
-                if (File.Exists(preloadScriptPath))
-                {
-                    string preloadScript = await System.IO.File.ReadAllTextAsync(preloadScriptPath);
-                    await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
-                    Console.WriteLine("Preload script injected.");
-                }
-                else
-                {
-                    Console.WriteLine($"Preload script not found at path: {preloadScriptPath}");
-                }
-                // Add a delay to ensure the script is loaded before the Angular application starts
-                await Task.Delay(1000);
-                webView.CoreWebView2.Navigate("http://localhost:4200");
-            }
-            else
-            {
-                Console.WriteLine("WebView2 initialization failed.");
-            }
         }
 
         // Event handler for messages received from the Angular app
