@@ -26,7 +26,7 @@ namespace DotNetWebViewApp
             InitializeComponent();
 
             // Initialize file paths
-            indexFilePath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "index.html");
+            indexFilePath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "browser", "index.html");
             // baseUrl = "http://localhost:4200";
             baseUrl =  indexFilePath;
 
@@ -99,7 +99,7 @@ namespace DotNetWebViewApp
 
                 // Inject the preload script
                 Console.WriteLine(AppContext.BaseDirectory);
-                string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "preload.js");
+                string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, "wwwroot", "browser", "preload.js");
                 if (File.Exists(preloadScriptPath))
                 {
                     string preloadScript = await File.ReadAllTextAsync(preloadScriptPath);

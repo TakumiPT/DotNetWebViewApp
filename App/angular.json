@@ -19,7 +19,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "baseHref": "./",
-            "outputPath": "dist/angular-app",
+            "outputPath": "../DotNetWebViewApp/wwwroot",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
