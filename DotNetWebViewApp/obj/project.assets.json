@@ -111,11 +111,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fmiguelf\\work\\Teste\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
+      "projectUniqueName": "C:\\Users\\fmiguelf\\work\\DotNetWebViewApp\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
       "projectName": "DotNetWebViewApp",
-      "projectPath": "C:\\Users\\fmiguelf\\work\\Teste\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
+      "projectPath": "C:\\Users\\fmiguelf\\work\\DotNetWebViewApp\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
       "packagesPath": "C:\\Users\\fmiguelf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fmiguelf\\work\\Teste\\DotNetWebViewApp\\obj\\",
+      "outputPath": "C:\\Users\\fmiguelf\\work\\DotNetWebViewApp\\DotNetWebViewApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\fmiguelf\\AppData\\Roaming\\NuGet\\NuGet.Config"

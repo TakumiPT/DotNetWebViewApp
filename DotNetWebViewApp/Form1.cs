@@ -65,6 +65,40 @@ namespace DotNetWebViewApp
                 await webView.EnsureCoreWebView2Async(environment);
                 Console.WriteLine("WebView2 initialized successfully.");
 
+                // Disable WebView2 context menu, DevTools, and browser accelerator keys
+                if (webView.CoreWebView2 != null)
+                {
+                    // Disable the default context menu
+                    webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+
+                    // Disable browser accelerator keys (e.g., F12 for DevTools)
+                    webView.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+
+                    // Disable DevTools to prevent users from opening developer tools
+                    webView.CoreWebView2.Settings.AreDevToolsEnabled = false;
+
+                    // Intercept mouse events to block left-click context menu
+                    webView.MouseDown += (s, args) =>
+                    {
+                        if (args.Button == MouseButtons.Left && args is HandledMouseEventArgs handledArgs)
+                        {
+                            handledArgs.Handled = true; // Suppress the left mouse button click
+                        }
+                    };
+                }
+
+                // Disable F12 (DevTools) and F5 (Refresh)
+                this.KeyPreview = true;
+                this.KeyDown += (sender, e) =>
+                {
+                    // Block F12 to prevent opening DevTools
+                    // Block F5 to prevent refreshing the WebView
+                    if (e.KeyCode == Keys.F12 || e.KeyCode == Keys.F5)
+                    {
+                        e.Handled = true; // Suppress the key press
+                    }
+                };
+
                 // Directly handle initialization logic if CoreWebView2 is already initialized
                 if (webView.CoreWebView2 != null)
                 {
@@ -79,6 +113,8 @@ namespace DotNetWebViewApp
                         Console.WriteLine("CoreWebView2InitializationCompleted event triggered.");
                         if (e.IsSuccess)
                         {
+                            // Ensure DevTools are disabled after initialization
+                            webView.CoreWebView2.Settings.AreDevToolsEnabled = false;
                             await HandleWebViewInitialization();
                         }
                         else

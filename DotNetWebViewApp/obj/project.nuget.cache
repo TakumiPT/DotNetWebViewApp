@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VbZ4d8VUgFCGWqSz2gYBppJT8Loh8by806N2ph6UNmfvk3hhgxswPC6Z/FL3tvLIdH4BkRGrhNZS0Yig/63ATg==",
+  "dgSpecHash": "Ev/8prpb4Az31CgbogWHRnhtsJFb1vBmHw92unv4PW+dOLOCUY9vKn5wUN07YAFJQTY4WCctIRpnlwf1Au4OWA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\fmiguelf\\work\\Teste\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
+  "projectFilePath": "C:\\Users\\fmiguelf\\work\\DotNetWebViewApp\\DotNetWebViewApp\\DotNetWebViewApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fmiguelf\\.nuget\\packages\\microsoft.web.webview2\\1.0.1054.31\\microsoft.web.webview2.1.0.1054.31.nupkg.sha512"
   ],
