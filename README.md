@@ -4,7 +4,7 @@ DotNetWebViewApp is a hybrid desktop application that integrates a .NET Windows 
 
 ## About Me
 
-Hi, I'm **Filipe Freire**, a passionate software developer with expertise in .NET, Angular, and hybrid application development. I created this project to demonstrate my ability to integrate modern web technologies into traditional desktop applications. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/filipe-freire-45300738/) or explore more of my work on [GitHub](https://github.com/TakumiPT).
+Hi, I'm **Filipe Freire**, a software developer with a strong interest in building hybrid applications that bridge the gap between web and desktop technologies. While my expertise spans multiple areas, this project reflects my ability to learn and apply .NET alongside Angular to create scalable and responsive solutions. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/filipe-freire-45300738/) or explore more of my work on [GitHub](https://github.com/TakumiPT).
 
 ## Why This Project?
 
@@ -164,19 +164,19 @@ private void RegisterIpcMainHandlers()
 }
 ```
 
-## Why Recruiters Should Care
+## Why This Project Stands Out
 
-This project showcases:
-- **Full-Stack Development**: Combines backend (C#) and frontend (Angular) technologies.
-- **Modern Desktop Integration**: Demonstrates the use of WebView2 for embedding web applications in desktop apps.
-- **Clean Code Practices**: Adheres to clean code principles and design patterns (e.g., Singleton, modular controllers).
-- **Scalability**: Designed with future extensibility in mind.
-- **Problem-Solving Skills**: Highlights the ability to integrate modern web technologies into traditional desktop applications.
+This project demonstrates:
+- **Versatility**: The ability to seamlessly integrate backend and frontend technologies into a cohesive solution.
+- **Modern Desktop Integration**: Utilizes WebView2 to embed web applications within a desktop environment, bridging the gap between traditional and modern development paradigms.
+- **Clean Code Practices**: Follows established design principles and patterns (e.g., Singleton, modular controllers) to ensure maintainability and readability.
+- **Scalability**: Built with future extensibility in mind, making it adaptable to evolving requirements.
+- **Innovative Problem-Solving**: Showcases the integration of web technologies into desktop applications, addressing real-world challenges with hybrid solutions.
 
 ## About the Author
 
-This project was developed by **Filipe Freire**, a passionate software developer with expertise in .NET, Angular, and hybrid application development. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/filipe-freire-45300738/) or explore more of my work on [GitHub](https://github.com/TakumiPT).
+This project was developed by **Filipe Freire**, a software developer with a strong interest in hybrid application development. While I am not a .NET expert, this project reflects my ability to learn and apply new technologies effectively. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/filipe-freire-45300738/) or explore more of my work on [GitHub](https://github.com/TakumiPT).
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**. You are free to use, modify, and distribute this project, provided that proper attribution is given to the author, **Filipe Freire**. See the [LICENSE](./LICENSE) file for more details.
