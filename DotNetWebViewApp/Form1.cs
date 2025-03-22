@@ -1,35 +1,28 @@
 using Microsoft.Web.WebView2.WinForms;
-using Microsoft.Web.WebView2.Core;
-using System.Text.Json.Serialization;
 
 namespace DotNetWebViewApp
 {
     public partial class Form1 : Form
     {
-        private WebView2 webView;
-        private string indexFilePath;
-        private string baseUrl;
-        private readonly bool isDev = true; // Debug mode flag
-
-        private const string BrowserFolder = "wwwroot\\browser";
-        private const string SplashScreenFile = "splashScreen.gif";
-        private const string FaviconFile = "favicon.ico";
-        private const string PreloadScriptFile = "preload.js";
+        private readonly WebViewService webViewService;
+        private readonly bool isDev = false; // Debug mode flag
+        private readonly EventAggregator eventAggregator = new EventAggregator(); // Instance of EventAggregator
 
         public Form1()
         {
             InitializeComponent();
+            webViewService = new WebViewService(this, isDev); // Pass isDev to WebViewService
             InitializeForm();
         }
 
         private void InitializeForm()
         {
+            IpcHandlerFactory.RegisterHandlers(); // Ensure handlers are registered before WebView initialization
             ShowSplashScreen();
             ConfigureFormProperties();
             SetFormIcon();
-            InitializeFilePaths();
-            InitializeWebView();
-            RegisterIpcMainHandlers();
+            webViewService.Initialize(); // Delegate WebView initialization
+            eventAggregator.Publish("ApplicationInitialized"); // Notify subscribers
         }
 
         private void ConfigureFormProperties()
@@ -40,7 +33,7 @@ namespace DotNetWebViewApp
 
         private void ShowSplashScreen()
         {
-            string gifPath = Path.Combine(AppContext.BaseDirectory, BrowserFolder, SplashScreenFile);
+            string gifPath = Path.Combine(AppContext.BaseDirectory, ConfigurationManager.BrowserFolder, ConfigurationManager.SplashScreenFile);
             if (!File.Exists(gifPath)) return;
 
             using var splashForm = new Form
@@ -63,182 +56,11 @@ namespace DotNetWebViewApp
 
         private void SetFormIcon()
         {
-            string faviconPath = Path.Combine(AppContext.BaseDirectory, BrowserFolder, FaviconFile);
+            string faviconPath = Path.Combine(AppContext.BaseDirectory, ConfigurationManager.BrowserFolder, ConfigurationManager.FaviconFile);
             if (File.Exists(faviconPath))
             {
                 this.Icon = new Icon(faviconPath);
             }
-        }
-
-        private void InitializeFilePaths()
-        {
-            indexFilePath = Path.Combine(AppContext.BaseDirectory, BrowserFolder, "index.html");
-            baseUrl = indexFilePath;
-        }
-
-        private async void InitializeWebView()
-        {
-            try
-            {
-                webView = new WebView2 { Dock = DockStyle.Fill };
-                this.Controls.Add(webView);
-
-                var environment = await CoreWebView2Environment.CreateAsync(
-                    userDataFolder: null,
-                    options: new CoreWebView2EnvironmentOptions("--disable-web-security --allow-file-access-from-files")
-                );
-
-                webView.CoreWebView2InitializationCompleted += (sender, e) =>
-                {
-                    if (e.IsSuccess)
-                    {
-                        ConfigureWebViewSettings();
-                        SubscribeToWebViewEvents();
-                    }
-                    else
-                    {
-                        Console.WriteLine("WebView2 initialization failed.");
-                    }
-                };
-
-                await webView.EnsureCoreWebView2Async(environment);
-
-                if (webView.CoreWebView2 != null)
-                {
-                    ConfigureWebViewSettings();
-                    SubscribeToWebViewEvents();
-                    await LoadWebViewContent();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error initializing WebView2: {ex.Message}");
-            }
-        }
-
-        private void ConfigureWebViewSettings()
-        {
-            if (webView.CoreWebView2 == null) return;
-
-            var settings = webView.CoreWebView2.Settings;
-            settings.AreDefaultContextMenusEnabled = isDev;
-            settings.AreBrowserAcceleratorKeysEnabled = isDev;
-            settings.AreDevToolsEnabled = isDev;
-
-            Console.WriteLine($"WebView2 settings configured. Debug mode: {isDev}, DevTools enabled: {settings.AreDevToolsEnabled}");
-        }
-
-        private void SubscribeToWebViewEvents()
-        {
-            if (webView.CoreWebView2 == null) return;
-
-            webView.CoreWebView2.WebMessageReceived += async (sender, e) => await HandleWebMessageReceivedAsync(sender, e);
-            webView.CoreWebView2.DocumentTitleChanged += (sender, e) =>
-            {
-                this.Text = webView.CoreWebView2.DocumentTitle ?? "DotNetWebViewApp";
-            };
-
-            this.KeyPreview = true;
-            this.KeyDown += (sender, e) =>
-            {
-                if (isDev && (e.KeyCode == Keys.F5 || e.KeyCode == Keys.F12))
-                {
-                    if (e.KeyCode == Keys.F5)
-                    {
-                        webView.CoreWebView2.Reload();
-                        Console.WriteLine("WebView content refreshed.");
-                    }
-                    else if (e.KeyCode == Keys.F12)
-                    {
-                        webView.CoreWebView2.OpenDevToolsWindow();
-                        Console.WriteLine("DevTools window opened.");
-                    }
-                    e.Handled = true;
-                }
-            };
-
-            Console.WriteLine("WebView2 events subscribed.");
-        }
-
-        private async Task LoadWebViewContent()
-        {
-            try
-            {
-                string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, BrowserFolder, PreloadScriptFile);
-                if (File.Exists(preloadScriptPath))
-                {
-                    string preloadScript = await File.ReadAllTextAsync(preloadScriptPath);
-                    await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
-                    Console.WriteLine("Preload script injected.");
-                }
-                else
-                {
-                    Console.WriteLine($"Preload script not found at path: {preloadScriptPath}");
-                }
-
-                webView.CoreWebView2.Navigate(baseUrl);
-                Console.WriteLine("WebView content loaded.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading WebView content: {ex.Message}");
-            }
-        }
-
-
-        private void RegisterIpcMainHandlers()
-        {
-            IpcMainSingleton.Instance.RegisterHandlers();
-        }
-
-        private async Task HandleWebMessageReceivedAsync(object sender, CoreWebView2WebMessageReceivedEventArgs e)
-        {
-            try
-            {
-                var message = e.TryGetWebMessageAsString();
-                Console.WriteLine($"WebMessageReceived: {message}");
-
-                var messageObject = System.Text.Json.JsonSerializer.Deserialize<Message>(message);
-
-                if (messageObject != null)
-                {
-                    Console.WriteLine($"Message received: Channel = {messageObject.Channel}, Args = {string.Join(", ", messageObject.Args)}");
-
-                    // Emit the event and handle invokeable IPCs
-                    IpcMainSingleton.Instance.Emit(messageObject.Channel, messageObject.Args);
-
-                    string result = "Handled";
-                    if (IpcMainSingleton.Instance.HasHandler(messageObject.Channel))
-                    {
-                        // Explicitly cast or convert the result to a string
-                        result = await Task.Run(() => IpcMainSingleton.Instance.Invoke(messageObject.Channel, messageObject.Args) as string ?? "Invalid result");
-                    }
-
-                    // Send the actual result back to the WebView
-                    var responseString = System.Text.Json.JsonSerializer.Serialize(new { channel = messageObject.Channel, result });
-                    webView.CoreWebView2.PostWebMessageAsString(responseString);
-                    Console.WriteLine($"Response sent: {responseString}");
-                }
-                else
-                {
-                    Console.WriteLine("Failed to deserialize message.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error processing message: {ex.Message}");
-                var errorResponse = new { channel = "error", error = ex.Message };
-                webView.CoreWebView2.PostWebMessageAsString(System.Text.Json.JsonSerializer.Serialize(errorResponse));
-            }
-        }
-
-        private class Message
-        {
-            [JsonPropertyName("channel")]
-            public string Channel { get; set; } = string.Empty;
-
-            [JsonPropertyName("args")]
-            public string[] Args { get; set; } = Array.Empty<string>();
         }
     }
 }

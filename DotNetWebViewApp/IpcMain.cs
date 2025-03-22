@@ -73,6 +73,7 @@ namespace DotNetWebViewApp
         public static void Handle(string channel, Func<object[], Task<object>> handler)
         {
             InvokeHandlers[channel] = handler;
+            Console.WriteLine($"Handler registered for channel: {channel}");
         }
 
         /// <summary>
@@ -119,8 +120,12 @@ namespace DotNetWebViewApp
         {
             if (InvokeHandlers.TryGetValue(channel, out var handler))
             {
-                return await handler(args);
+                Logger.Info($"Invoking handler for channel: {channel} with args: {string.Join(", ", args)}");
+                var result = await handler(args);
+                Logger.Info($"Handler result for channel '{channel}': {result}");
+                return result;
             }
+            Logger.Warning($"No handler registered for channel: {channel}");
             throw new InvalidOperationException($"No handler registered for channel: {channel}");
         }
 

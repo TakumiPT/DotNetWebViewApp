@@ -37,21 +37,16 @@ namespace DotNetWebViewApp
             Console.WriteLine("IpcMain handlers registered.");
         }
 
-        public string Emit(string channel, string[] args)
-        {
-            Console.WriteLine($"Emitting event: {channel} with args: {string.Join(", ", args)}");
-
-            // Return a placeholder response for now
-            return $"Event {channel} handled with args: {string.Join(", ", args)}";
-        }
-
         public bool HasHandler(string channel)
         {
-            return IpcMain.HasHandler(channel);
+            bool hasHandler = IpcMain.HasHandler(channel);
+            Console.WriteLine($"HasHandler check for channel '{channel}': {hasHandler}");
+            return hasHandler;
         }
 
         public object Invoke(string channel, params object[] args)
         {
+            Console.WriteLine($"Invoking handler for channel: {channel} with args: {string.Join(", ", args)}");
             return IpcMain.Invoke(channel, args).Result; // Synchronously wait for the result
         }
 
