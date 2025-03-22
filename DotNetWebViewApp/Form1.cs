@@ -132,7 +132,7 @@ namespace DotNetWebViewApp
         {
             if (webView.CoreWebView2 == null) return;
 
-            webView.CoreWebView2.WebMessageReceived += HandleWebMessageReceived;
+            webView.CoreWebView2.WebMessageReceived += async (sender, e) => await HandleWebMessageReceivedAsync(sender, e);
             webView.CoreWebView2.DocumentTitleChanged += (sender, e) =>
             {
                 this.Text = webView.CoreWebView2.DocumentTitle ?? "DotNetWebViewApp";
@@ -185,12 +185,13 @@ namespace DotNetWebViewApp
             }
         }
 
+
         private void RegisterIpcMainHandlers()
         {
             IpcMainSingleton.Instance.RegisterHandlers();
         }
 
-        private void HandleWebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
+        private async Task HandleWebMessageReceivedAsync(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {
             try
             {
@@ -203,11 +204,18 @@ namespace DotNetWebViewApp
                 {
                     Console.WriteLine($"Message received: Channel = {messageObject.Channel}, Args = {string.Join(", ", messageObject.Args)}");
 
-                    // Emit the event without assigning its result
+                    // Emit the event and handle invokeable IPCs
                     IpcMainSingleton.Instance.Emit(messageObject.Channel, messageObject.Args);
 
-                    // Optionally send a response back to the WebView
-                    var responseString = System.Text.Json.JsonSerializer.Serialize(new { channel = messageObject.Channel, result = "Handled" });
+                    string result = "Handled";
+                    if (IpcMainSingleton.Instance.HasHandler(messageObject.Channel))
+                    {
+                        // Explicitly cast or convert the result to a string
+                        result = await Task.Run(() => IpcMainSingleton.Instance.Invoke(messageObject.Channel, messageObject.Args) as string ?? "Invalid result");
+                    }
+
+                    // Send the actual result back to the WebView
+                    var responseString = System.Text.Json.JsonSerializer.Serialize(new { channel = messageObject.Channel, result });
                     webView.CoreWebView2.PostWebMessageAsString(responseString);
                     Console.WriteLine($"Response sent: {responseString}");
                 }
@@ -219,6 +227,8 @@ namespace DotNetWebViewApp
             catch (Exception ex)
             {
                 Console.WriteLine($"Error processing message: {ex.Message}");
+                var errorResponse = new { channel = "error", error = ex.Message };
+                webView.CoreWebView2.PostWebMessageAsString(System.Text.Json.JsonSerializer.Serialize(errorResponse));
             }
         }
 

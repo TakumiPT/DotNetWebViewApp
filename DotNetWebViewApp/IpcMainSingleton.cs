@@ -45,6 +45,16 @@ namespace DotNetWebViewApp
             return $"Event {channel} handled with args: {string.Join(", ", args)}";
         }
 
+        public bool HasHandler(string channel)
+        {
+            return IpcMain.HasHandler(channel);
+        }
+
+        public object Invoke(string channel, params object[] args)
+        {
+            return IpcMain.Invoke(channel, args).Result; // Synchronously wait for the result
+        }
+
         private string OpenFolderDialog()
         {
             using var dialog = new FolderBrowserDialog();
