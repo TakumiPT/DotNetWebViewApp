@@ -52,3 +52,4 @@ C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-window
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\polyfills-FFHMD2TL.js
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\preload.js
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\styles-5INURTSO.css
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\splashScreen.gif
