@@ -25,6 +25,14 @@ C:\Users\fmiguelf\work\Teste\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\p
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\runtimes\win-x86\native\WebView2Loader.dll
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\runtimes\win-x64\native\WebView2Loader.dll
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\runtimes\win-arm64\native\WebView2Loader.dll
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\3rdpartylicenses.txt
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\favicon.ico
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\index.html
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\main-L7QL2NXB.js
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\polyfills-FFHMD2TL.js
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\preload.js
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\splashScreen.gif
+C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\styles-5INURTSO.css
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\DotNetWebViewApp.exe
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\DotNetWebViewApp.deps.json
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\DotNetWebViewApp.runtimeconfig.json
@@ -45,11 +53,3 @@ C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\obj\Debug\net8.0-window
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.pdb
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\obj\Debug\net8.0-windows\DotNetWebViewApp.genruntimeconfig.cache
 C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\obj\Debug\net8.0-windows\ref\DotNetWebViewApp.dll
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\3rdpartylicenses.txt
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\favicon.ico
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\index.html
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\main-L7QL2NXB.js
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\polyfills-FFHMD2TL.js
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\preload.js
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\styles-5INURTSO.css
-C:\Users\fmiguelf\work\DotNetWebViewApp\DotNetWebViewApp\bin\Debug\net8.0-windows\wwwroot\browser\splashScreen.gif

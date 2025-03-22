@@ -44,9 +44,8 @@ namespace DotNetWebViewApp
         private void InitializeFilePaths()
         {
             indexFilePath = Path.Combine(AppContext.BaseDirectory, BrowserFolder, "index.html");
-            baseUrl = $"file:///{indexFilePath.Replace("\\", "/")}";
-            Console.WriteLine($"Index file path resolved to: {indexFilePath}");
-            Console.WriteLine($"Base URL set to: {baseUrl}");
+            baseUrl = new Uri(indexFilePath).AbsoluteUri; // Use new Uri to construct the file URL
+            Logger.Debug("Index file path and base URL initialized."); // Simplified log
         }
 
         private void ConfigureSettings()
@@ -66,32 +65,31 @@ namespace DotNetWebViewApp
             try
             {
                 string preloadScriptPath = Path.Combine(AppContext.BaseDirectory, BrowserFolder, PreloadScriptFile);
-                Console.WriteLine($"Preload script path resolved to: {preloadScriptPath}");
 
                 if (File.Exists(preloadScriptPath))
                 {
                     string preloadScript = await File.ReadAllTextAsync(preloadScriptPath);
                     await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(preloadScript);
-                    Console.WriteLine("Preload script injected.");
+                    Logger.Info("Preload script injected."); // Retain meaningful log
                 }
                 else
                 {
-                    Console.WriteLine($"Preload script not found at path: {preloadScriptPath}");
+                    Logger.Warning("Preload script not found."); // Avoid logging sensitive file paths
                 }
 
                 if (File.Exists(indexFilePath))
                 {
                     webView.CoreWebView2.Navigate(baseUrl);
-                    Console.WriteLine("WebView content loaded.");
+                    Logger.Info("WebView content loaded."); // Retain meaningful log
                 }
                 else
                 {
-                    Console.WriteLine($"Index file not found at path: {indexFilePath}");
+                    Logger.Warning("Index file not found."); // Avoid logging sensitive file paths
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading WebView content: {ex.Message}");
+                Logger.Error("Error loading WebView content.", ex); // Retain meaningful log
             }
         }
     }

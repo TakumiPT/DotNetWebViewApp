@@ -45,7 +45,7 @@ namespace DotNetWebViewApp
                     if (IpcMain.HasHandler(messageObject.Channel))
                     {
                         var result = await IpcMain.Invoke(messageObject.Channel, messageObject.Args);
-                        Logger.Info($"Handler result for channel '{messageObject.Channel}': {result}");
+                        Logger.Info($"Handler result for channel '{messageObject.Channel}': {result}"); // Log result only once
 
                         // Send the result back to the WebView
                         var response = new
@@ -55,7 +55,7 @@ namespace DotNetWebViewApp
                         };
                         var responseString = System.Text.Json.JsonSerializer.Serialize(response);
                         webView.CoreWebView2.PostWebMessageAsString(responseString);
-                        Logger.Info($"Response sent to WebView: {responseString}");
+                        Logger.Debug($"Response sent to WebView."); // Simplified log
                     }
                     else
                     {

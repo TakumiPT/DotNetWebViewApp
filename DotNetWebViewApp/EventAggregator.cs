@@ -33,7 +33,7 @@ namespace DotNetWebViewApp
         {
             if (eventSubscribers.TryGetValue(eventName, out var handlers))
             {
-                Logger.Info($"Publishing event: {eventName} with args: {string.Join(", ", args)}");
+                Logger.Debug($"Publishing event: {eventName}"); // Simplified log
                 foreach (var handler in handlers)
                 {
                     handler.Invoke(args);
@@ -41,7 +41,7 @@ namespace DotNetWebViewApp
             }
             else
             {
-                Logger.Warning($"No subscribers for event: {eventName}");
+                Logger.Warning($"No subscribers for event: {eventName}"); // Retain meaningful log
             }
         }
     }

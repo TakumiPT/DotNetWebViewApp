@@ -10,43 +10,44 @@ namespace DotNetWebViewApp
 
         public void RegisterHandlers()
         {
+            Logger.Debug("Registering IPC handlers."); // Simplified log
             IpcMain.Handle("version", async args =>
             {
-                Console.WriteLine("Handler invoked: version");
+                Logger.Debug("Handler invoked: version"); // Retain meaningful log
                 return await Task.FromResult(Application.ProductVersion);
             });
 
             IpcMain.Handle("status", async args =>
             {
-                Console.WriteLine("Handler invoked: status");
+                Logger.Debug("Handler invoked: status"); // Retain meaningful log
                 return await Task.FromResult("Running");
             });
 
             IpcMain.Handle("platform", async args =>
             {
-                Console.WriteLine("Handler invoked: platform");
+                Logger.Debug("Handler invoked: platform"); // Retain meaningful log
                 return await Task.FromResult(Environment.OSVersion.Platform.ToString());
             });
 
             IpcMain.Handle("openFolderDialog", async args =>
             {
-                Console.WriteLine("Handler invoked: openFolderDialog");
+                Logger.Debug("Handler invoked: openFolderDialog"); // Retain meaningful log
                 return await Task.Run(() => OpenFolderDialog());
             });
 
-            Console.WriteLine("IpcMain handlers registered.");
+            Logger.Info("All IPC handlers registered."); // Retain meaningful log
         }
 
         public bool HasHandler(string channel)
         {
             bool hasHandler = IpcMain.HasHandler(channel);
-            Console.WriteLine($"HasHandler check for channel '{channel}': {hasHandler}");
+            Logger.Debug($"HasHandler check for channel '{channel}': {hasHandler}");
             return hasHandler;
         }
 
         public object Invoke(string channel, params object[] args)
         {
-            Console.WriteLine($"Invoking handler for channel: {channel} with args: {string.Join(", ", args)}");
+            Logger.Debug($"Invoking handler for channel: {channel} with args: {string.Join(", ", args)}");
             return IpcMain.Invoke(channel, args).Result; // Synchronously wait for the result
         }
 

@@ -5,12 +5,13 @@ namespace DotNetWebViewApp
     public partial class Form1 : Form
     {
         private readonly WebViewService webViewService;
-        private readonly bool isDev = false; // Debug mode flag
+        private readonly bool isDev = true; // Debug mode flag
         private readonly EventAggregator eventAggregator = new EventAggregator(); // Instance of EventAggregator
 
         public Form1()
         {
             InitializeComponent();
+            Logger.Info("Initializing Form1."); // Retain meaningful log
             webViewService = new WebViewService(this, isDev); // Pass isDev to WebViewService
             InitializeForm();
         }
@@ -22,7 +23,9 @@ namespace DotNetWebViewApp
             ConfigureFormProperties();
             SetFormIcon();
             webViewService.Initialize(); // Delegate WebView initialization
-            eventAggregator.Publish("ApplicationInitialized"); // Notify subscribers
+
+            // Remove this if the event is not needed
+            // eventAggregator.Publish("ApplicationInitialized");
         }
 
         private void ConfigureFormProperties()
@@ -36,13 +39,17 @@ namespace DotNetWebViewApp
             string gifPath = Path.Combine(AppContext.BaseDirectory, ConfigurationManager.BrowserFolder, ConfigurationManager.SplashScreenFile);
             if (!File.Exists(gifPath)) return;
 
+            string faviconPath = Path.Combine(AppContext.BaseDirectory, ConfigurationManager.BrowserFolder, ConfigurationManager.FaviconFile);
+            Icon appIcon = File.Exists(faviconPath) ? new Icon(faviconPath) : null;
+
             using var splashForm = new Form
             {
                 FormBorderStyle = FormBorderStyle.None,
                 StartPosition = FormStartPosition.CenterScreen,
-                BackgroundImage = Image.FromFile(gifPath),
+                BackgroundImage = Image.FromFile(new Uri(gifPath).LocalPath),
                 BackgroundImageLayout = ImageLayout.Center,
-                Size = Image.FromFile(gifPath).Size
+                Size = Image.FromFile(new Uri(gifPath).LocalPath).Size,
+                Icon = appIcon // Set the splash screen icon to the global application icon
             };
 
             splashForm.Shown += (s, e) =>
@@ -59,7 +66,7 @@ namespace DotNetWebViewApp
             string faviconPath = Path.Combine(AppContext.BaseDirectory, ConfigurationManager.BrowserFolder, ConfigurationManager.FaviconFile);
             if (File.Exists(faviconPath))
             {
-                this.Icon = new Icon(faviconPath);
+                this.Icon = new Icon(new Uri(faviconPath).LocalPath); // Updated to use new UrionPath).LocalPath); // Updated to use new Uri
             }
         }
     }
